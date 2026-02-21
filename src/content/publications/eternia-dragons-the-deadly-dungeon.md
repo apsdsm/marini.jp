@@ -1,8 +1,8 @@
 ---
-title: "Eternia Dragons - The Deady Dungeon"
-titleJa: "エターニア・ドラゴンズ 〜死のダンジョン〜"
+title: Eternia Dragons - The Deady Dungeon
+titleJa: エターニア・ドラゴンズ 〜死のダンジョン〜
 coverSmall: eternia_cover_sml.jpg
-author: "Nicholas Bleak"
+author: Nicholas Bleak
 contributors:
   - nicholas-bleak
 storeLinks:
@@ -10,11 +10,12 @@ storeLinks:
     linkUrl: "https://www.amazon.co.jp/dp/B0F1MXW2KD"
 defaultStoreLink: "https://www.amazon.co.jp/dp/B0F1MXW2KD"
 notPublished: false
-toeicRangeLow: "400"
-toeicRangeHigh: "600"
-eikenRangeLow: "3級"
-eikenRangeHigh: "5級"
-publicationDate: "2025-02-24"
+toeicRangeLow: 400
+toeicRangeHigh: 600
+eikenRangeLow: 3級
+eikenRangeHigh: 5級
+publicationDate: 2025-02-24
+published: true
 ---
 
 高校生の天馬は、妹の恵馬と一緒にゲームをするはずが、突如謎の光に包まれ「エターニア・ドラゴンズ」の世界に飛ばされてしまった。

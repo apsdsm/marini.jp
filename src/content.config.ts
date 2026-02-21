@@ -2,35 +2,13 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-const publications = defineCollection({
-  loader: glob({ base: "./src/content/publications", pattern: "**/*.{md,mdx}" }),
+const banners = defineCollection({
+  loader: glob({ base: "./src/content/banners", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
     title: z.string(),
-    titleJa: z.string().optional(),
-    coverSmall: z.string().optional(),
-    author: z.string().optional(),
-    contributors: z.array(z.string()).optional(),
-    storeLinks: z.array(z.object({
-      linkText: z.string(),
-      linkUrl: z.string(),
-    })).optional(),
-    defaultStoreLink: z.string().optional(),
-    notPublished: z.boolean().optional(),
-    toeicRangeLow: z.string().optional(),
-    toeicRangeHigh: z.string().optional(),
-    eikenRangeLow: z.string().optional(),
-    eikenRangeHigh: z.string().optional(),
-    publicationDate: z.string().optional(),
-  }),
-});
-
-const series = defineCollection({
-  loader: glob({ base: "./src/content/series", pattern: "**/*.{md,mdx}" }),
-  schema: z.object({
-    title: z.string(),
-    bannerSmall: z.string().optional(),
-    seriesLogo: z.string().optional(),
-    entries: z.array(z.string()).optional(),
+    banner: z.string(),
+    link: z.string().optional(),
+    published: z.boolean().optional(),
   }),
 });
 
@@ -41,9 +19,44 @@ const contributors = defineCollection({
     name: z.string(),
     nameJa: z.string().optional(),
     profilePicture: z.string().optional(),
-    role: z.enum(["author", "illustrator"]),
+    role: z.string(),
     showDetails: z.boolean().optional(),
     publications: z.array(z.string()).optional(),
+    published: z.boolean().optional(),
+  }),
+});
+
+const publications = defineCollection({
+  loader: glob({ base: "./src/content/publications", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    titleJa: z.string(),
+    coverSmall: z.string().optional(),
+    author: z.string().optional(),
+    contributors: z.array(z.string()).optional(),
+    storeLinks: z.array(z.object({
+        linkText: z.string(),
+        linkUrl: z.string(),
+      })),
+    defaultStoreLink: z.string().optional(),
+    notPublished: z.boolean().optional(),
+    toeicRangeLow: z.string().optional(),
+    toeicRangeHigh: z.string().optional(),
+    eikenRangeLow: z.string().optional(),
+    eikenRangeHigh: z.string().optional(),
+    publicationDate: z.string().optional(),
+    published: z.boolean().optional(),
+  }),
+});
+
+const series = defineCollection({
+  loader: glob({ base: "./src/content/series", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    bannerSmall: z.string().optional(),
+    seriesLogo: z.string().optional(),
+    entries: z.array(z.string()),
+    published: z.boolean().optional(),
   }),
 });
 
@@ -54,22 +67,14 @@ const updates = defineCollection({
     icon: z.string(),
     date: z.string(),
     link: z.string().optional(),
-  }),
-});
-
-const banners = defineCollection({
-  loader: glob({ base: "./src/content/banners", pattern: "**/*.{md,mdx}" }),
-  schema: z.object({
-    title: z.string(),
-    banner: z.string(),
-    link: z.string().optional(),
+    published: z.boolean().optional(),
   }),
 });
 
 export const collections = {
+  banners,
+  contributors,
   publications,
   series,
-  contributors,
   updates,
-  banners,
 };

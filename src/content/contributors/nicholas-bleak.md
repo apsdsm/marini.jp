@@ -1,12 +1,14 @@
 ---
-title: "Nicholas Bleak"
-name: "Nicholas Bleak"
-nameJa: "ニコラス　ブリーク"
+title: Nicholas Bleak
+name: Nicholas Bleak
+nameJa: ニコラス　ブリーク
 profilePicture: hmt.jpg
 role: author
 showDetails: true
 publications:
   - eternia-dragons-the-deadly-dungeon
+  - eternia-dragons-the-haunted-tower
+published: true
 ---
 
 出身国：オーストラリア

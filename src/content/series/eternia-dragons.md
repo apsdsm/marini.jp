@@ -1,10 +1,11 @@
 ---
-title: "エターニア・ドラゴンズ"
+title: エターニア・ドラゴンズ
 bannerSmall: eternia_series_banner_sml.jpg
 seriesLogo: eternia_series_logo_sml.png
 entries:
   - eternia-dragons-the-deadly-dungeon
   - eternia-dragons-the-haunted-tower
+published: true
 ---
 
 **「ゲームの世界に飛ばされた高校生の運命は？！」**

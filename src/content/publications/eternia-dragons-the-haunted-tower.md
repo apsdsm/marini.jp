@@ -1,8 +1,8 @@
 ---
-title: "Eternia Dragons - The Haunted Tower"
-titleJa: "エターニア・ドラゴンズ 〜呪われた塔〜"
+title: Eternia Dragons - The Haunted Tower
+titleJa: エターニア・ドラゴンズ 〜呪われた塔〜
 coverSmall: eternia_b2_cover_kindle_rgb_sml.jpg
-author: "Nicholas Bleak"
+author: Nicholas Bleak
 contributors:
   - nicholas-bleak
 storeLinks:
@@ -10,11 +10,12 @@ storeLinks:
     linkUrl: "https://www.amazon.co.jp/dp/B0FLDB3CVD"
 defaultStoreLink: "https://www.amazon.co.jp/dp/B0FLDB3CVD"
 notPublished: false
-toeicRangeLow: "400"
-toeicRangeHigh: "600"
-eikenRangeLow: "3級"
-eikenRangeHigh: "5級"
-publicationDate: "2025-08-06"
+toeicRangeLow: 400
+toeicRangeHigh: 600
+eikenRangeLow: 3級
+eikenRangeHigh: 5級
+publicationDate: 2025-08-06
+published: true
 ---
 
 **I see something all the way at the very end of the hallway. A faint blue light, hovering in midair for a few seconds before it disappears... A ghost!?**
