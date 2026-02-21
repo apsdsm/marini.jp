@@ -1,0 +1,122 @@
+---
+import Layout from "../layouts/Layout.astro";
+import BannerSlider from "../components/BannerSlider.astro";
+import PublicationGrid from "../components/PublicationGrid.astro";
+import { brand } from "../data/globals";
+import { getCollection, render } from "astro:content";
+
+const allBanners = await getCollection("banners");
+const bannerItems = allBanners.map((b) => ({
+    banner: b.data.banner,
+    link: b.data.link,
+    title: b.data.title,
+}));
+
+const publications = await getCollection("publications");
+const pubItems = publications.map((p) => ({
+    url: `/publications/${p.id}`,
+    coverSmall: p.data.coverSmall ?? "",
+    title: p.data.title,
+}));
+
+const allSeries = await getCollection("series");
+const seriesItems = allSeries.map((s) => ({
+    url: `/series/${s.id}`,
+    bannerSmall: s.data.bannerSmall ?? "",
+    title: s.data.title,
+}));
+
+const allUpdates = await getCollection("updates");
+const renderedUpdates = await Promise.all(
+    allUpdates.map(async (u) => ({
+        update: u,
+        rendered: await render(u),
+    }))
+);
+---
+
+<Layout title="marini.jp">
+    <!-- Banner Carousel -->
+    <BannerSlider items={bannerItems} />
+
+    <!-- Main Content Wrapper -->
+    <div class="w-full flex flex-col items-center bg-white max-w-screen-lg shadow-lg">
+        <!-- Recent Publications -->
+        <section class="w-full max-w-screen-lg">
+            <div class="p-4 flex max-w-screen-lg flex-col items-center justify-center w-full">
+                <h1 class="w-full border-b-1 pb-2 mb-4 text-mblue-400">新刊情報</h1>
+                <PublicationGrid items={pubItems} />
+            </div>
+        </section>
+
+        <!-- Series -->
+        <section class="w-full max-w-screen-lg">
+            <div class="p-4 flex flex-col justify-center items-center w-full border-zinc-200">
+                <h1 class="w-full border-b-1 pb-2 mb-4 text-mblue-400">シリーズ紹介</h1>
+
+                <div class="flex flex-wrap justify-left w-full">
+                    {seriesItems.map((s) => (
+                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-3">
+                            <a href={s.url} class="drop-shadow-md">
+                                <img src={`/${s.bannerSmall}`} alt={s.title} class="w-full h-auto block drop-shadow-md" />
+                            </a>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        <!-- Updates -->
+        <section class="w-full max-w-screen-lg">
+            <div class="p-4 w-full">
+                <h1 class="w-full border-b-1 pb-2 mb-4 text-mblue-400">お知らせ</h1>
+                <ul>
+                    {renderedUpdates.map(({ update, rendered }) => (
+                        <li class="update-item mb-2">
+                            <div class="flex flex-row items-start text-xs w-full">
+                                <img
+                                    src={`/${update.data.icon}`}
+                                    alt={update.data.title}
+                                    class="max-w-8 max-h-8 mt-1 mr-4 outline-2 outline-morange-400 rounded-full h-auto drop-shadow-md"
+                                />
+
+                                <div class="update-content border-1 border-slate-200 p-3 text-xs rounded-lg">
+                                    <div class="mr-2 mb-2">
+                                        <p class="font-bold">{update.data.date}</p>
+                                    </div>
+
+                                    <rendered.Content />
+
+                                    {update.data.link && (
+                                        <div class="mt-2 flex flex-row items-center justify-end">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 mr-2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                                            </svg>
+                                            <a href={update.data.link} class="text-mblue-400 hover:underline text-right text-sm font-bold">続きを読む</a>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="w-full max-w-screen-lg pt-8 pb-8 bg-slate-50 shadow-inner">
+            <div class="p-4 w-full flex flex-col items-center">
+                <div class="flex flex-col sm:flex-row items-top w-full max-w-screen-md">
+                    <div class="w-full sm:w-1/4 flex justify-center h-full">
+                        <img src={`/${brand.logoLarge}`} alt="marini" class="max-w-[100px] h-auto object-contain" />
+                    </div>
+
+                    <div class="sm:w-3/4 mt-8 sm:mt-0">
+                        <h2 class="text-md text-mblue-400 uppercase mb-2 text-center sm:text-left">Mariniについて</h2>
+                        <div class="prose prose-stone max-w-none text-sm font-sans">{brand.about}</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>

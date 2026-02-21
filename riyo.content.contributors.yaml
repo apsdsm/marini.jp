@@ -1,0 +1,62 @@
+Contributors are authors or illustrators who work on publications.
+
+---
+loader:
+  base: src/content/contributors
+
+schema:
+  - group: Title
+    fields:
+      - name: title
+        display: Display Name
+        type: short_text
+        width: 100
+
+  - group: Details
+    fields:
+      - name: name
+        display: Name
+        type: short_text
+        width: 50
+
+      - name: nameJa
+        display: Japanese Name
+        type: short_text
+        optional: true
+        width: 50
+
+      - name: profilePicture
+        display: Profile Picture
+        type: image
+        optional: true
+        width: 50
+        folder: public
+
+      - name: role
+        display: Role
+        type: select
+        width: 50
+        options:
+          - label: 作家
+            value: author
+          - label: イラスト
+            value: illustrator
+
+      - name: showDetails
+        display: Show Details
+        type: boolean
+        optional: true
+
+  - group: Publications
+    fields:
+      - name: publications
+        display: Publications
+        type: reference_list
+        refersTo: publications
+        optional: true
+        width: 100
+        limit: _
+        fields:
+          - name: title
+            display: Publication Title
+            width: 100

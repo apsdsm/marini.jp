@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+    update: CollectionEntry<"updates">;
+    Content: astroHTML.JSX.Element;
+}
+
+const { update, Content } = Astro.props;
+---
+
+<li class="update-item mb-2">
+    <div class="flex flex-row items-start text-xs w-full">
+        <img
+            src={`/${update.data.icon}`}
+            alt={update.data.title}
+            class="max-w-8 max-h-8 mt-1 mr-4 outline-2 outline-morange-400 rounded-full h-auto drop-shadow-md"
+        />
+
+        <div class="update-content border-1 border-slate-200 p-3 text-xs rounded-lg">
+            <div class="mr-2 mb-2">
+                <p class="font-bold">{update.data.date}</p>
+            </div>
+
+            <Content />
+
+            {update.data.link && (
+                <div class="mt-2 flex flex-row items-center justify-end">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                    </svg>
+                    <a href={update.data.link} class="text-mblue-400 hover:underline text-right text-sm font-bold">続きを読む</a>
+                </div>
+            )}
+        </div>
+    </div>
+</li>

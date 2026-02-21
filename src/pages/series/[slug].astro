@@ -1,0 +1,70 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+    const allSeries = await getCollection("series");
+    return allSeries.map((s) => ({
+        params: { slug: s.id },
+        props: { series: s },
+    }));
+}
+
+const { series } = Astro.props;
+const { Content } = await render(series);
+
+// Resolve publication entries
+const entrySlugs = series.data.entries ?? [];
+const publications = entrySlugs.length > 0
+    ? (await getCollection("publications")).filter((pub) => entrySlugs.includes(pub.id))
+    : [];
+const sortedEntries = entrySlugs
+    .map((slug) => publications.find((pub) => pub.id === slug))
+    .filter(Boolean);
+---
+
+<Layout title={`${series.data.title} - marini.jp`}>
+    <div class="w-full flex flex-col items-center bg-white max-w-screen-lg shadow-lg">
+        <section class="w-full max-w-screen-lg">
+            <div class="p-4 w-full">
+                <h1 class="w-full border-b-1 pb-2 mb-4 text-mblue-400">{series.data.title}</h1>
+
+                <div class="flex flex-col items-top justify-center sm:flex-row-reverse">
+                    <!-- Series Description -->
+                    <div class="flex flex-col items-center">
+                        {series.data.seriesLogo && (
+                            <div class="p-2 sm:hidden">
+                                <img src={`/${series.data.seriesLogo}`} alt={series.data.title} class="w-full max-w-70 h-auto" />
+                            </div>
+                        )}
+
+                        <div class="prose prose-sm p-2 sm:p-4 max-w-none prose-h2:text-sm">
+                            <Content />
+                        </div>
+                    </div>
+
+                    <!-- Series Entries -->
+                    <div class="sm:min-w-56 p-4 flex flex-col items-center">
+                        <div class="w-full">
+                            {series.data.seriesLogo && (
+                                <img src={`/${series.data.seriesLogo}`} alt={series.data.title} class="w-56 h-auto hidden sm:block mb-8" />
+                            )}
+
+                            <h2 class="text-mblue-400 text-xs border-b-1">既刊</h2>
+
+                            <div class="flex flex-wrap justify-left w-full">
+                                {sortedEntries.map((pub) => (
+                                    <div class="max-w-56 w-1/2 p-3">
+                                        <a href={`/publications/${pub!.id}`} class="drop-shadow-md">
+                                            <img src={`/${pub!.data.coverSmall}`} alt={pub!.data.title} class="w-full h-auto block drop-shadow-md" />
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>

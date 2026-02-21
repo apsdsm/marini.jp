@@ -1,0 +1,32 @@
+Updates are news items displayed on the home page.
+
+---
+loader:
+  base: src/content/updates
+
+schema:
+  - group: Title
+    fields:
+      - name: title
+        display: Title
+        type: short_text
+        width: 100
+
+  - group: Details
+    fields:
+      - name: icon
+        display: Icon
+        type: image
+        width: 50
+        folder: public
+
+      - name: date
+        display: Date
+        type: short_text
+        width: 50
+
+      - name: link
+        display: Link
+        type: url
+        optional: true
+        width: 100

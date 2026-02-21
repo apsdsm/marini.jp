@@ -1,0 +1,90 @@
+---
+interface BannerItem {
+    banner: string;
+    link?: string;
+    title: string;
+}
+
+interface Props {
+    items: BannerItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="relative min-w-full aspect-3/1 max-h-[240px] overflow-hidden bg-slate-200 banner-shadow">
+    <div class="relative w-full h-full" id="slider">
+        {items.map((item) => (
+            <div class="w-full h-full bg-cover bg-center flex flex-row items-center justify-center slide">
+                <div class="slide-wrapper w-full max-w-200px aspect-3/1 flex flex-row items-center justify-center">
+                    <div class="slide-content flex flex-col items-center justify-center">
+                        {item.link ? (
+                            <a href={item.link}>
+                                <img src={`/${item.banner}`} alt={item.title} class="drop-shadow-sm" />
+                            </a>
+                        ) : (
+                            <img src={`/${item.banner}`} alt={item.title} class="drop-shadow-sm" />
+                        )}
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+</section>
+
+<style>
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 100%;
+        height: 100%;
+    }
+    .ease-in {
+        transition: transform 1s ease-in-out;
+        transform: translateX(-100%);
+    }
+    .ease-out {
+        transition: transform 1s ease-in-out;
+        transform: translateX(-200%);
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var slides = document.querySelectorAll(".slide");
+
+        if (slides.length < 3) {
+            const slider = document.getElementById("slider");
+            if (!slider) return;
+            const sliderHTML = slider.innerHTML;
+
+            while (slides.length < 3) {
+                slider.innerHTML += sliderHTML;
+                slides = document.querySelectorAll(".slide");
+            }
+        }
+
+        let currentIndex = -1;
+
+        function showNextSlide() {
+            if (currentIndex >= 0) {
+                slides[currentIndex].classList.remove("ease-in");
+                slides[currentIndex].classList.add("ease-out");
+            }
+
+            let nextIndex = (currentIndex + 1) % slides.length;
+            slides[nextIndex].classList.remove("ease-out");
+            slides[nextIndex].classList.add("ease-in");
+
+            let nextnextIndex = (currentIndex + 2) % slides.length;
+            slides[nextnextIndex].classList.remove("ease-out");
+            slides[nextnextIndex].classList.remove("ease-in");
+
+            currentIndex = (currentIndex + 1) % slides.length;
+        }
+
+        showNextSlide();
+        setInterval(showNextSlide, 7000);
+    });
+</script>

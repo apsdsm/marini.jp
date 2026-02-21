@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ── Font faces ── */
+@font-face {
+    font-family: "Murecho";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/murecho.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "MurechoStrong";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("/fonts/murecho.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "MurechoThick";
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url("/fonts/murecho.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "NotoSerif";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/noto_serif_jp.woff2") format("woff2");
+}
+
+/* ── Theme ── */
+@theme {
+    --color-morange-400: #ff603c;
+    --color-mblue-400: #26b7c9;
+    --aspect-articlebanner: 4 / 1;
+}
+
+/* ── Base element styles ── */
+h1 {
+    font-family: "MurechoThick", monospace;
+}
+
+h2 {
+    font-family: "MurechoStrong", monospace;
+}
+
+p {
+    font-family: "NotoSerif", sans-serif;
+}
+
+p.font-bold {
+    font-family: "MurechoStrong", monospace;
+}
+
+p strong {
+    font-family: "MurechoStrong", monospace;
+}
+
+/* ── Component classes ── */
+.banner-shadow {
+    box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.1),
+        inset 0 -10px 10px -10px rgba(0, 0, 0, 0.1);
+}
+
+.update-content {
+    position: relative;
+}
+
+.update-content::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: -10px;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-right: 9px solid theme("colors.slate.200");
+}
+
+.update-content::after {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: -8px;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid white;
+}
+
+/* ── Prose overrides ── */
+.prose h2 {
+    font-size: 1rem;
+    @media (min-width: 640px) {
+        font-size: 1.2rem;
+    }
+}
+
+.prose p {
+    font-size: 0.8rem;
+    @media (min-width: 640px) {
+        font-size: 0.9rem;
+    }
+}
+
+.prose a {
+    text-decoration: none;
+    color: var(--color-mblue-400);
+    &:hover {
+        text-decoration: underline;
+    }
+}

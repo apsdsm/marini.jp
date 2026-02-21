@@ -1,0 +1,110 @@
+Publications are books that can be purchased. Each publication has a cover,
+store links, reading level indicators, and contributor references.
+
+---
+loader:
+  base: src/content/publications
+
+schema:
+  - group: Title
+    fields:
+      - name: title
+        display: Title
+        type: short_text
+        width: 50
+
+      - name: titleJa
+        display: Japanese Title
+        type: short_text
+        width: 50
+
+  - group: Media
+    fields:
+      - name: coverSmall
+        display: Cover Thumbnail
+        type: image
+        optional: true
+        hint: 500x800 cover thumbnail
+        width: 50
+        folder: public
+
+  - group: Details
+    fields:
+      - name: author
+        display: Author
+        type: short_text
+        optional: true
+        width: 50
+
+      - name: contributors
+        display: Contributors
+        type: reference_list
+        refersTo: contributors
+        optional: true
+        width: 100
+        limit: _
+        fields:
+          - name: title
+            display: Contributor Name
+            width: 100
+
+  - group: Links
+    fields:
+      - name: storeLinks
+        display: Store Links
+        type: component
+        repeatable: true
+        fields:
+          - name: linkText
+            display: Link Text
+            type: short_text
+            width: 50
+
+          - name: linkUrl
+            display: URL
+            type: url
+            width: 50
+
+      - name: defaultStoreLink
+        display: Default Store Link
+        type: url
+        optional: true
+
+      - name: notPublished
+        display: Not Yet Published
+        type: boolean
+        optional: true
+
+  - group: Reading Levels
+    fields:
+      - name: toeicRangeLow
+        display: TOEIC Low
+        type: short_text
+        optional: true
+        width: 25
+
+      - name: toeicRangeHigh
+        display: TOEIC High
+        type: short_text
+        optional: true
+        width: 25
+
+      - name: eikenRangeLow
+        display: Eiken Low
+        type: short_text
+        optional: true
+        width: 25
+
+      - name: eikenRangeHigh
+        display: Eiken High
+        type: short_text
+        optional: true
+        width: 25
+
+  - group: Meta
+    fields:
+      - name: publicationDate
+        display: Publication Date
+        type: short_text
+        optional: true
+        width: 50

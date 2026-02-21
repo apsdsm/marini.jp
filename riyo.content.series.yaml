@@ -1,0 +1,44 @@
+A Series is a collection of related publications grouped together with
+shared branding assets like a banner and logo.
+
+---
+loader:
+  base: src/content/series
+
+schema:
+  - group: Title
+    fields:
+      - name: title
+        display: Title
+        type: short_text
+        width: 100
+
+  - group: Media
+    fields:
+      - name: bannerSmall
+        display: Banner Thumbnail
+        type: image
+        optional: true
+        hint: 500x250 banner image
+        width: 50
+        folder: public
+
+      - name: seriesLogo
+        display: Series Logo
+        type: image
+        optional: true
+        width: 50
+        folder: public
+
+  - group: Entries
+    fields:
+      - name: entries
+        display: Publications
+        type: reference_list
+        refersTo: publications
+        width: 100
+        limit: _
+        fields:
+          - name: title
+            display: Publication Title
+            width: 100

@@ -1,0 +1,27 @@
+Banners are promotional images shown in the homepage carousel.
+
+---
+loader:
+  base: src/content/banners
+
+schema:
+  - group: Title
+    fields:
+      - name: title
+        display: Title
+        type: short_text
+        width: 100
+
+  - group: Media
+    fields:
+      - name: banner
+        display: Banner Image
+        type: image
+        width: 50
+        folder: public
+
+      - name: link
+        display: Link
+        type: url
+        optional: true
+        width: 50

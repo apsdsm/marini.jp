@@ -1,0 +1,27 @@
+---
+interface PublicationItem {
+    url: string;
+    coverSmall: string;
+    title: string;
+}
+
+interface Props {
+    items: PublicationItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="flex flex-wrap justify-left w-full">
+    {items.map((item) => (
+        <div class="min-w-32 max-w-56 w-1/2 sm:w-1/4 md:w-1/6 p-3">
+            <a href={item.url} class="drop-shadow-md">
+                <img
+                    src={`/${item.coverSmall}`}
+                    alt={item.title}
+                    class="w-full h-auto block drop-shadow-md"
+                />
+            </a>
+        </div>
+    ))}
+</div>

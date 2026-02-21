@@ -1,0 +1,88 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+    const publications = await getCollection("publications");
+    return publications.map((pub) => ({
+        params: { slug: pub.id },
+        props: { publication: pub },
+    }));
+}
+
+const { publication } = Astro.props;
+const { Content } = await render(publication);
+
+const roleLabels: Record<string, string> = {
+    author: "作家",
+    illustrator: "イラスト",
+};
+
+// Resolve contributors
+const contributorSlugs = publication.data.contributors ?? [];
+const allContributors = contributorSlugs.length > 0
+    ? (await getCollection("contributors")).filter((c) => contributorSlugs.includes(c.id))
+    : [];
+const sortedContributors = contributorSlugs
+    .map((slug) => allContributors.find((c) => c.id === slug))
+    .filter(Boolean);
+---
+
+<Layout title={`${publication.data.title} - marini.jp`}>
+    <div class="w-full flex flex-col items-center bg-white max-w-screen-lg shadow-lg">
+        <section class="w-full max-w-screen-lg">
+            <div class="p-4 w-full">
+                <h1 class="w-full text-mblue-400">{publication.data.title}</h1>
+                {publication.data.titleJa && (
+                    <h1 class="w-full border-b-1 pb-2 mb-4 text-mblue-400 text-sm">{publication.data.titleJa}</h1>
+                )}
+
+                <div class="flex flex-col items-top justify-center sm:flex-row">
+                    {publication.data.coverSmall && (
+                        <div class="sm:min-w-56 p-4 flex flex-col items-center">
+                            <img src={`/${publication.data.coverSmall}`} alt={publication.data.title} class="w-56 h-auto" />
+                        </div>
+                    )}
+
+                    <div>
+                        <div class="prose prose-sm p-4 max-w-none prose-h2:text-sm prose-p:text-xs">
+                            <Content />
+                        </div>
+
+                        {sortedContributors.length > 0 && (
+                            <div class="prose prose-sm px-4 max-w-none prose-h2:text-xs prose-p:text-xs">
+                                {sortedContributors.map((contributor) => (
+                                    <h2>
+                                        {roleLabels[contributor!.data.role]}：
+                                        <a href={`/contributors/${contributor!.id}`}>
+                                            {contributor!.data.name}（{contributor!.data.nameJa}）
+                                        </a>
+                                    </h2>
+                                ))}
+                            </div>
+                        )}
+
+                        <div class="prose prose-sm p-4 max-w-none prose-h2:text-xs prose-p:text-xs">
+                            <h2 class="text-mblue-400">レベルの目安</h2>
+                            {publication.data.eikenRangeLow && publication.data.eikenRangeHigh && (
+                                <p>英検: {publication.data.eikenRangeLow} ~ {publication.data.eikenRangeHigh}</p>
+                            )}
+                            {publication.data.toeicRangeLow && publication.data.toeicRangeHigh && (
+                                <p>TOEIC: {publication.data.toeicRangeLow} ~ {publication.data.toeicRangeHigh}点</p>
+                            )}
+
+                            <h2 class="text-mblue-400">下記オンラインストアで購入できます</h2>
+                            {publication.data.notPublished ? (
+                                <p>近日リリース</p>
+                            ) : (
+                                publication.data.storeLinks?.map((link) => (
+                                    <p><a href={link.linkUrl}>{link.linkText}</a></p>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
